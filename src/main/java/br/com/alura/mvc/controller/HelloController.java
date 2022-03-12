@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class HelloController {
 
+	// OS MÉTODOS SÃO AS ACTIONS QUE ATENDEM A REQUISIÇÃO HTTP
 	@GetMapping(value = "/hello")
 	public String hello(Model model) {
 		
