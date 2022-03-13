@@ -1,0 +1,33 @@
+<html>
+<head>
+<meta charset="UTF-8" />
+<title>Home</title>
+</head>
+<body>
+
+	<!-- FAZENDO FOREACH NA LISTA -->
+	<div th:each="pedido : ${pedidos}">
+		<div th:text="${pedido.nomeProduto}">Nome do produto</div>
+		<div>
+			Valor: <span th:text="${pedido.valorProduto}">200,99</span>
+		</div>
+		<div>
+			Data entrega: <span th:text="${pedido.dataEntrega}">10/02/2020</span>
+		</div>
+
+		<div>Produto</div>
+		<div><a th:href="${pedido.urlProduto}">Link do Produto</a> </div>
+
+		<div>Descriçao</div>
+		<div>
+			<textarea rows="" cols="" th:text="${pedido.descricao}">Descrição do pedido</textarea>
+		</div>
+
+		<div>
+			<img th:src="${pedido.urlImagem}" src="" />
+		</div>
+
+	</div>
+
+</body>
+</html>
