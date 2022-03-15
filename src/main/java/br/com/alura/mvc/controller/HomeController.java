@@ -27,7 +27,7 @@ public class HomeController {
 		
 		
 		
-		List<Pedido> pedidos = Arrays.asList(pedido, pedido, pedido, pedido);
+		List<Pedido> pedidos = Arrays.asList(pedido);
 		
 		// "pedidos" -> Nome da variavel a ser pega pelo thymeleaf em seguida o objeto 
 		model.addAttribute("pedidos", pedidos);
