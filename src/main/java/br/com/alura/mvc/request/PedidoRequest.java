@@ -15,7 +15,6 @@ public class PedidoRequest {
 	@NotBlank
 	private String imagemProduto;
 
-	@NotBlank
 	private String descricaoProduto;
 
 	public String getNomeProduto() {
