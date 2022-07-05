@@ -37,6 +37,17 @@ public class Pedido {
 	@Column(name = "DESCRICAO")
 	private String descricao;
 
+	@Deprecated
+	public Pedido() {
+	}
+
+	public Pedido(String nomeProduto, String urlImagem, String urlProduto, String descricao) {
+		this.nomeProduto = nomeProduto;
+		this.urlImagem = urlImagem;
+		this.urlProduto = urlProduto;
+		this.descricao = descricao;
+	}
+
 	public Long getId() {
 		return id;
 	}
