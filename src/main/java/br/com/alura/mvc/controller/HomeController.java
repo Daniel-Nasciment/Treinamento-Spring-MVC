@@ -24,6 +24,7 @@ public class HomeController {
 	@GetMapping
 	public String home(Model model) {
 		
+		// MODEL É DO PACOTE "UI" USER INTERFACE, PARA PASSAR ESSE ATRIBUTO PARA A VIEW (HTML) E TRATA JOGA ESSE DADO NA TELA COM O THYMELEAF
 
 		List<Pedido> pedidos = pedidoRepository.findAll();
 		
