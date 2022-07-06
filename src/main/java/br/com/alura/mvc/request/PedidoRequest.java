@@ -4,6 +4,7 @@ import javax.validation.constraints.NotBlank;
 
 import br.com.alura.mvc.model.Pedido;
 
+
 public class PedidoRequest {
 
 	@NotBlank

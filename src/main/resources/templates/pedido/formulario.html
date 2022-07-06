@@ -1,3 +1,5 @@
+<!DOCTYPE html>
+
 <html>
 
 <head>
@@ -16,38 +18,69 @@
 
         <div class="card p-3">
             <!-- A SINTAXE ${} SERVE PARA CAPTURAR UM OBJETO/ATRIBUTO DA REQUEST -->
-            <form th:object="${pedidoRequest}" action="/pedido/novo" method="POST">
+            <!-- TOMAR CUIDADO NO TH:OBJECT COM A SUGESTÃO DA IDE PARA UMA TAG OBJECT PODE INFLUENCIAR NA LÓGICA DE GERENCIAMENTO DO THYMELEAF-->
+            <form action="/pedido/novo" method="POST" th:object="${pedidoRequest}" class="needs-validation" novalidate>
+
                 <div class="form-group mb-2">
                     <label for="nomeProduto">Produto</label>
                     <!-- A SINTAXE *{} SERVE PARA ACESSAR UM ATRIBUTO DO OBJETO DEFINIDO PELO THYMELEAF E AUTOMATICAMENTE É DEFINIDO O NAME E ID -->
-                    <input th:fiel="*{nomeProduto}" class="form-control" placeholder="Nome do produto" />
+                    <input class="form-control" type="text" th:field="*{nomeProduto}" placeholder="Nome do produto"
+                        required />
                     <small>Informe qual o nome do produto.</small>
+                    <div class="invalid-feedback" th:errors="*{nomeProduto}"></div>
                 </div>
                 <div class="form-group mb-2">
                     <label for="urlProduto">URL</label>
-                    <input th:fiel="*{urlProduto}" class="form-control" placeholder="URL do produto" />
+                    <input type="text" th:field="*{urlProduto}" class="form-control" placeholder="URL do produto"
+                        required />
                     <small>Procure em um site o produto que você deseja.</small>
+                    <div class="invalid-feedback" th:errors="*{urlProduto}"></div>
                 </div>
                 <div class="form-group mb-2">
                     <label for="imagemProduto">Imagem</label>
-                    <input th:fiel="*{imagemProduto}" class="form-control" placeholder="URL da imagem" />
-                    <small>Copie a URK de uma boa imagem do produto e cole aqui para ajudar a conseguir
+                    <input type="text" th:field="*{imagemProduto}" class="form-control" placeholder="URL da imagem"
+                        required />
+                    <small>Copie a URL de uma boa imagem do produto e cole aqui para ajudar a conseguir
                         compradores.</small>
+                    <div class="invalid-feedback" th:errors="*{imagemProduto}"></div>
                 </div>
                 <div class="form-group mb-2">
                     <label for="descricaoProduto">Descrição</label>
-                    <textarea class="form-control" placeholder="Adicione detalhes importantes para ajudar o comprador.">
+                    <textarea type="text" th:field="*{descricaoProduto}" class="form-control"
+                        placeholder="Adicione detalhes importantes para ajudar o comprador.">
 
                     </textarea>
                 </div>
 
                 <button type="submit" class="btn btn-primary">Cadastrar</button>
+
             </form>
         </div>
 
 
 
     </div>
+
+
+
+    <script>
+        (function () {
+            'use strict';
+            window.addEventListener('load', function () {
+                var forms = document.getElementsByClassName('needs-validation');
+                var validation = Array.prototype.filter.call(forms, function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (form.checkValidity() === false) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        form.classList.add('was-validated');
+                    }, false);
+                });
+            }, false);
+        })();
+    </script>
+
 </body>
 
 </html>
