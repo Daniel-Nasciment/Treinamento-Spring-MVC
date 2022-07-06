@@ -21,14 +21,15 @@ public class PedidoController {
 	private PedidoRepository pedidoRepository;
 	
 	@GetMapping(value = "/formulario")
-	public String novoPedido() {
+	// FOI NECESSARIO PASSAR ESSE OBJ NO PARAMETRO POR CONTA DO THYMELEAF QUE FAZ USO NA RENDERIZAÇÃO DO FORMULARIO
+	public String formulario(PedidoRequest request) {
 		return "pedido/formulario";
 	}
 
 	
 	// @RequestMapping barra alguns media types
 	@PostMapping(value = "/novo")
-	public String novoPedido(	@Valid PedidoRequest request, BindingResult result) {
+	public String novoPedido(@Valid PedidoRequest request, BindingResult result) {
 
 	// O Spring através do BindingResult retorna o resultado das validações
 	// E quando faço a utilização dele a validação não joga o erro, é tratado pelo código
