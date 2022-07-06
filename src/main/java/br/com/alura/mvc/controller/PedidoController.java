@@ -42,7 +42,7 @@ public class PedidoController {
 		
 		pedidoRepository.save(pedido);
 		
-		return "home";
+		return "redirect:/home";
 	}
 
 	

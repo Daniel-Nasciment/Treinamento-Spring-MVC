@@ -2,6 +2,7 @@ package br.com.alura.mvc.request;
 
 import javax.validation.constraints.NotBlank;
 
+import br.com.alura.mvc.enuns.StatusPedido;
 import br.com.alura.mvc.model.Pedido;
 
 
@@ -51,7 +52,7 @@ public class PedidoRequest {
 	}
 
 	public Pedido toModel() {
-		return new Pedido(this.nomeProduto, this.imagemProduto, this.urlProduto, this.descricaoProduto);
+		return new Pedido(this.nomeProduto, this.imagemProduto, this.urlProduto, this.descricaoProduto, StatusPedido.AGUARDANDO);
 		
 	}
 

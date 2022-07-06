@@ -5,10 +5,14 @@ import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import br.com.alura.mvc.enuns.StatusPedido;
 
 @Entity
 @Table(name = "PEDIDOS")
@@ -37,6 +41,10 @@ public class Pedido {
 	@Column(name = "DESCRICAO")
 	private String descricao;
 
+	@Column(name = "STATUS_PEDIDO")
+	@Enumerated(EnumType.STRING)
+	private StatusPedido status;
+
 	@Deprecated
 	public Pedido() {
 	}
@@ -46,6 +54,14 @@ public class Pedido {
 		this.urlImagem = urlImagem;
 		this.urlProduto = urlProduto;
 		this.descricao = descricao;
+	}
+
+	public Pedido(String nomeProduto, String urlImagem, String urlProduto, String descricao, StatusPedido status) {
+		this.nomeProduto = nomeProduto;
+		this.urlImagem = urlImagem;
+		this.urlProduto = urlProduto;
+		this.descricao = descricao;
+		this.status = status;
 	}
 
 	public Long getId() {
@@ -102,6 +118,14 @@ public class Pedido {
 
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
+	}
+
+	public StatusPedido getStatus() {
+		return status;
+	}
+
+	public void setStatus(StatusPedido status) {
+		this.status = status;
 	}
 
 }
