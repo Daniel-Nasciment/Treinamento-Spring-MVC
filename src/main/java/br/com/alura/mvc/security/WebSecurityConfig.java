@@ -19,13 +19,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
+				
 		http
 		.authorizeRequests()
-		.antMatchers("/*").permitAll()
-			.anyRequest().authenticated()
+		//.antMatchers("/*").permitAll() -- DINIFIÇÃO DAS URIS QUE NÃO SÃO NECESSÁRIAS AUTENTICAR
+			.anyRequest().authenticated() // TODAS AS DEMAIS SÃO NECESSÁRIAS
 		.and()
-			.httpBasic();
+			.formLogin().loginPage("/login").permitAll()
+		.and()
+			.logout().permitAll();
 	}
+	
+	
 	
 	
 	// MÉTODO DE AUTENTICAÇÃO
@@ -35,8 +40,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 	public UserDetailsService userDetailsService() {
 		UserDetails user =
 			 User.withDefaultPasswordEncoder()
-				.username("user")
-				.password("password")
+				.username("daniel")
+				.password("1234")
 				.roles("USER")
 				.build();
 
