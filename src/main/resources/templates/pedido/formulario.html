@@ -18,7 +18,7 @@
         <div class="card p-3">
             <!-- A SINTAXE ${} SERVE PARA CAPTURAR UM OBJETO/ATRIBUTO DA REQUEST -->
             <!-- TOMAR CUIDADO NO TH:OBJECT COM A SUGESTÃO DA IDE PARA UMA TAG OBJECT PODE INFLUENCIAR NA LÓGICA DE GERENCIAMENTO DO THYMELEAF-->
-            <form action="/pedido/novo" method="POST" th:object="${pedidoRequest}" class="needs-validation" novalidate>
+            <form th:action="@{/pedido/novo}" method="POST" th:object="${pedidoRequest}" class="needs-validation" novalidate>
 
                 <div class="form-group mb-2">
                     <label for="nomeProduto">Produto</label>

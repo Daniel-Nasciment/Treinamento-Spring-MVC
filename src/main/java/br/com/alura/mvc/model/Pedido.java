@@ -62,12 +62,13 @@ public class Pedido {
 		this.descricao = descricao;
 	}
 
-	public Pedido(String nomeProduto, String urlImagem, String urlProduto, String descricao, StatusPedido status) {
+	public Pedido(String nomeProduto, String urlImagem, String urlProduto, String descricao, StatusPedido status, User user) {
 		this.nomeProduto = nomeProduto;
 		this.urlImagem = urlImagem;
 		this.urlProduto = urlProduto;
 		this.descricao = descricao;
 		this.status = status;
+		this.user = user;
 	}
 
 	public Long getId() {
