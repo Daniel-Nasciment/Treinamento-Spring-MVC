@@ -48,6 +48,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		UserDetails user = User.builder().username("bia").password(encoder.encode("1234")).roles("USER").build();
 
 		auth.jdbcAuthentication().dataSource(dataSource).passwordEncoder(encoder); //.withUser(user);
+		
+		// A PARTIR DA DOCUMENTAÇÃO DO SPRING SOBRE JDBC AUTHENTICATION
+		// A TABALA DE EXEMPLO É MOLDADA COM A PK NO USERNAME, DESSA FORMA O SPRING SECURITY É CONFIGURADO APENAS PARA ESSE CAMPO
 
 	}
 	// MÉTODO DE AUTENTICAÇÃO LOGIN EM MEMÓRIA
