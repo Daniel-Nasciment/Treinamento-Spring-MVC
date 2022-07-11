@@ -45,7 +45,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(); 
 
 		/*ESSA CONFIGURAÇÃO JA VAI CRIAR O USUARIO NO BANCO DE DADOS*/
-		//UserDetails user = User.builder().username("marco").password(encoder.encode("1234")).roles("USER").build();
+		UserDetails user = User.builder().username("bia").password(encoder.encode("1234")).roles("USER").build();
 
 		auth.jdbcAuthentication().dataSource(dataSource).passwordEncoder(encoder); //.withUser(user);
 

@@ -1,5 +1,6 @@
 package br.com.alura.mvc.controller;
 
+import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,11 +23,12 @@ public class HomeController {
 	private PedidoRepository pedidoRepository;
 	
 	@GetMapping
-	public String home(Model model) {
+	public String home(Model model, Principal principal) {
 		
 		// MODEL É DO PACOTE "UI" USER INTERFACE, PARA PASSAR ESSE ATRIBUTO PARA A VIEW (HTML) E TRATA JOGA ESSE DADO NA TELA COM O THYMELEAF
-
-		List<Pedido> pedidos = pedidoRepository.findAll();
+		// PRINCIPAL EU CONSIGO RECUPERAR O USUARIO LOGADO
+		
+		List<Pedido> pedidos = pedidoRepository.findAllByUsername(principal.getName());
 		
 		
 		// "pedidos" -> Nome da variavel a ser pega pelo thymeleaf em seguida o objeto 
