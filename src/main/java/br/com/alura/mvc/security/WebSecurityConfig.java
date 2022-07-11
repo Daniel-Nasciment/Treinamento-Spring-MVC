@@ -41,28 +41,20 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 
-		/*ENCODE PARA SENHA*/
-		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(); 
-
-		/*ESSA CONFIGURAÇÃO JA VAI CRIAR O USUARIO NO BANCO DE DADOS*/
-		UserDetails user = User.builder().username("bia").password(encoder.encode("1234")).roles("USER").build();
-
-		auth.jdbcAuthentication().dataSource(dataSource).passwordEncoder(encoder); //.withUser(user);
-		
-		// A PARTIR DA DOCUMENTAÇÃO DO SPRING SOBRE JDBC AUTHENTICATION
-		// A TABALA DE EXEMPLO É MOLDADA COM A PK NO USERNAME, DESSA FORMA O SPRING SECURITY É CONFIGURADO APENAS PARA ESSE CAMPO
-		
-		// COMANDO PARA REMOVER CONSTRAINT alter table MINHATABELA drop constraint NOMEFK
+		auth.jdbcAuthentication().passwordEncoder(new BCryptPasswordEncoder())
+        .dataSource(dataSource)
+        .usersByUsernameQuery("select username, password, enabled from users where username=?")
+        .authoritiesByUsernameQuery("select username, role from users where username=?");
 
 	}
 	// MÉTODO DE AUTENTICAÇÃO LOGIN EM MEMÓRIA
 
-	@Bean
-	@Override
-	public UserDetailsService userDetailsService() {
-		UserDetails user = User.withDefaultPasswordEncoder().username("daniel").password("1234").roles("USER").build();
-
-		return new InMemoryUserDetailsManager(user);
-	}
+//	@Bean
+//	@Override
+//	public UserDetailsService userDetailsService() {
+//		UserDetails user = User.withDefaultPasswordEncoder().username("daniel").password("1234").roles("USER").build();
+//
+//		return new InMemoryUserDetailsManager(user);
+//	}
 
 }
