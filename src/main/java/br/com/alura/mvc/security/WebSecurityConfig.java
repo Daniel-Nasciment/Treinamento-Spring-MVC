@@ -28,7 +28,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 
 		http.authorizeRequests()
-				// .antMatchers("/*").permitAll() -- DINIFIÇÃO DAS URIS QUE NÃO SÃO NECESSÁRIAS
+				 .antMatchers("/home").permitAll() // -- DINIFIÇÃO DAS URIS QUE NÃO SÃO NECESSÁRIAS
 				// AUTENTICAR
 				.anyRequest().authenticated() // TODAS AS DEMAIS SÃO NECESSÁRIAS
 				.and().formLogin().loginPage("/login").permitAll()

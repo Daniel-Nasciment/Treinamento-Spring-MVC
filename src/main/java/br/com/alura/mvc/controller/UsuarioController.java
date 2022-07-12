@@ -38,7 +38,7 @@ public class UsuarioController {
 		List<Pedido> pedidos = pedidoRepository.findByStatusAndUsername(StatusPedido.valueOf(status.toUpperCase()), principal.getName());		
 		model.addAttribute("pedidos", pedidos);
 		
-		return "home";
+		return "usuario/home";
 	}
 	
 	@ExceptionHandler(Exception.class)
