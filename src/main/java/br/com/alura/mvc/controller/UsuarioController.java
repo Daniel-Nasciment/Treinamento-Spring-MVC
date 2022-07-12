@@ -16,43 +16,34 @@ import br.com.alura.mvc.model.Pedido;
 import br.com.alura.mvc.repository.PedidoRepository;
 
 @Controller
-@RequestMapping(value = "/home")
-public class HomeController {
-
+@RequestMapping(value = "/usuario")
+public class UsuarioController {
+	
 	@Autowired
 	private PedidoRepository pedidoRepository;
 	
-	@GetMapping
+	@GetMapping(value = "/pedido")
 	public String home(Model model, Principal principal) {
 		
-		// MODEL É DO PACOTE "UI" USER INTERFACE, PARA PASSAR ESSE ATRIBUTO PARA A VIEW (HTML) E TRATA JOGA ESSE DADO NA TELA COM O THYMELEAF
-		// PRINCIPAL EU CONSIGO RECUPERAR O USUARIO LOGADO
-		
-		List<Pedido> pedidos = pedidoRepository.findAll();
-		
-		
-		// "pedidos" -> Nome da variavel a ser pega pelo thymeleaf em seguida o objeto 
+		List<Pedido> pedidos = pedidoRepository.findAllByUsername(principal.getName());
 		model.addAttribute("pedidos", pedidos);
 		
-		return "home";
+		return "usuario/home";
 	}
 
 	
-	@GetMapping(value = "/{status}")
-	public String porStatus(Model model, @PathVariable("status") String status) {
+	@GetMapping(value = "/pedido/{status}")
+	public String porStatus(Model model, @PathVariable("status") String status, Principal principal) {
 		
-		List<Pedido> pedidos = pedidoRepository.findByStatus(StatusPedido.valueOf(status.toUpperCase()));
-		
+		List<Pedido> pedidos = pedidoRepository.findByStatusAndUsername(StatusPedido.valueOf(status.toUpperCase()), principal.getName());		
 		model.addAttribute("pedidos", pedidos);
 		
 		return "home";
 	}
 	
-	// MÉTODO AUXILIAR PARA A REQUISIÇÃO DE ALGUMA URL DESCONHECIDA PELA API
 	@ExceptionHandler(Exception.class)
 	public String onError() {
-		return"redirect:/home";
+		return"redirect:/usuario/home";
 	}
 
-	
 }

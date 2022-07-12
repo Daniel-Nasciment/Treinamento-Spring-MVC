@@ -32,7 +32,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				// AUTENTICAR
 				.anyRequest().authenticated() // TODAS AS DEMAIS SÃO NECESSÁRIAS
 				.and().formLogin().loginPage("/login").permitAll()
-				.defaultSuccessUrl("/home", true) // FORÇA O REDIRECIONAMENTO PARA /HOME NO MOMENTO DE AUTENTICAÇÃO
+				.defaultSuccessUrl("/usuario/pedido", true) // FORÇA O REDIRECIONAMENTO PARA /HOME NO MOMENTO DE AUTENTICAÇÃO
 				.and().logout().logoutUrl("/logout")
 				.logoutSuccessUrl("/login");
 
