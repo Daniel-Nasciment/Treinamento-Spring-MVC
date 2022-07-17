@@ -55,14 +55,8 @@ public class Pedido {
 	public Pedido() {
 	}
 
-	public Pedido(String nomeProduto, String urlImagem, String urlProduto, String descricao) {
-		this.nomeProduto = nomeProduto;
-		this.urlImagem = urlImagem;
-		this.urlProduto = urlProduto;
-		this.descricao = descricao;
-	}
-
-	public Pedido(String nomeProduto, String urlImagem, String urlProduto, String descricao, StatusPedido status, User user) {
+	public Pedido(String nomeProduto, String urlImagem, String urlProduto, String descricao, StatusPedido status,
+			User user) {
 		this.nomeProduto = nomeProduto;
 		this.urlImagem = urlImagem;
 		this.urlProduto = urlProduto;
@@ -141,6 +135,13 @@ public class Pedido {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	@Override
+	public String toString() {
+		return "Pedido [id=" + id + ", nomeProduto=" + nomeProduto + ", urlImagem=" + urlImagem + ", urlProduto="
+				+ urlProduto + ", valorProduto=" + valorProduto + ", dataEntrega=" + dataEntrega + ", descricao="
+				+ descricao + ", status=" + status + ", user=" + user + "]";
 	}
 
 }
