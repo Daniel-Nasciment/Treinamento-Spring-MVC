@@ -2,6 +2,7 @@ package br.com.alura.mvc.repository;
 
 import java.util.List;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -13,7 +14,7 @@ import br.com.alura.mvc.model.Pedido;
 @Repository
 public interface PedidoRepository extends JpaRepository<Pedido, Long> {
 
-	List<Pedido> findByStatus(StatusPedido status);
+	List<Pedido> findByStatus(StatusPedido status, Sort sort);
 
 	@Query("select p from Pedido p join p.user u where u.username = :name")
 	List<Pedido> findAllByUsername(@Param("name") String name);

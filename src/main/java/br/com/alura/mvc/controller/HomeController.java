@@ -3,6 +3,7 @@ package br.com.alura.mvc.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -26,7 +27,10 @@ public class HomeController {
 		// MODEL É DO PACOTE "UI" USER INTERFACE, PARA PASSAR ESSE ATRIBUTO PARA A VIEW (HTML) E TRATA JOGA ESSE DADO NA TELA COM O THYMELEAF
 		// PRINCIPAL EU CONSIGO RECUPERAR O USUARIO LOGADO
 		
-		List<Pedido> pedidos = pedidoRepository.findByStatus(StatusPedido.ENTREGUE);
+		// CRIANDO ORDENAÇÃO PARA CONSULTA
+		Sort sort = Sort.by("dataEntrega").descending();		
+		
+		List<Pedido> pedidos = pedidoRepository.findByStatus(StatusPedido.ENTREGUE, sort);
 		
 		
 		// "pedidos" -> Nome da variavel a ser pega pelo thymeleaf em seguida o objeto 
