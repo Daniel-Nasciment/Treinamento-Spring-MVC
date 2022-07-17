@@ -3,6 +3,7 @@ package br.com.alura.mvc.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,9 +29,11 @@ public class HomeController {
 		// PRINCIPAL EU CONSIGO RECUPERAR O USUARIO LOGADO
 		
 		// CRIANDO ORDENAÇÃO PARA CONSULTA
-		Sort sort = Sort.by("dataEntrega").descending();		
+		Sort sort = Sort.by("dataEntrega").descending();
+		// CRIANDO PAGINAÇÃO 
+		PageRequest paginacao = PageRequest.of(0, 1, sort);
 		
-		List<Pedido> pedidos = pedidoRepository.findByStatus(StatusPedido.ENTREGUE, sort);
+		List<Pedido> pedidos = pedidoRepository.findByStatus(StatusPedido.ENTREGUE, paginacao);
 		
 		
 		// "pedidos" -> Nome da variavel a ser pega pelo thymeleaf em seguida o objeto 
