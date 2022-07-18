@@ -13,7 +13,7 @@ import br.com.alura.mvc.enuns.StatusPedido;
 import br.com.alura.mvc.model.Pedido;
 
 @Repository
-public interface PedidoRepository extends JpaRepository<Pedido, Long> {
+public interface PedidoRepository extends JpaRepository<Pedido, Integer> {
 
 	@Cacheable("pedidos")
 	List<Pedido> findByStatus(StatusPedido status, Pageable pageable);

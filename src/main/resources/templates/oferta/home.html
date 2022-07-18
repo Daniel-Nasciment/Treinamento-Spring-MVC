@@ -51,7 +51,8 @@
 							<textarea class="form-control" rows="" cols="" v-model="pedido.comentario"></textarea>
 						</div>
 						<!-- V-ON:CLICK É NO MOMENTO DE CLICK DESSE BOTÃO, ELE VAI EXECUTAR UMA FUNÇÃO QUE EU CRIEI enviarOferta -->
-						<button v-on:click="enviarOferta(pedido)" class="btn btn-primary mt-2">Cadastrar Oferta</button>
+						<button v-if="pedido.ofertaEnviada" class="btn btn-success mt-2">Oferta enviada</button>
+						<button v-else v-on:click="enviarOferta(pedido)" class="btn btn-primary mt-2">Cadastrar Oferta</button>
 					</div>
 					<div class="col-12 col-sm-4">
 						<div>
@@ -78,14 +79,24 @@
 				mounted() {
 					axios
 						.get('http://localhost:8080/api/pedidos/aguardando')
-						.then(response => (this.pedidos = response.data))
+						.then(response => { 
+							response.data.forEach(pedido => pedido.ofertaEnviada = false)
+							this.pedidos = response.data
+						})
 					// OS DADOS QUE VEM NO RESPONSE FICAM DENTRO DO ".DATA"
 				},
 				// AQUI PODEMOS CRIAR OS MÉTODOS QUE NOS QUISERMOS
 				methods: {
 
-					enviarOferta:function(pedido) {
-						console.log(pedido);
+					enviarOferta: function(pedido) {
+						axios
+							.post('http://localhost:8080/api/ofertas', {
+								idPedido: pedido.id,
+								valorProduto: pedido.valorProduto,
+								dataEntrega: pedido.dataEntrega,
+								comentario: pedido.comentario,
+							})
+							.then(response => pedido.ofertaEnviada = true)
 					}
 
 
