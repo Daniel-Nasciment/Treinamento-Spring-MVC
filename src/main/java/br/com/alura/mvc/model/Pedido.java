@@ -2,6 +2,8 @@ package br.com.alura.mvc.model;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Collections;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -13,6 +15,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import br.com.alura.mvc.enuns.StatusPedido;
@@ -50,6 +53,9 @@ public class Pedido {
 
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private User user;
+
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "pedido", fetch = FetchType.LAZY)
+	private List<Oferta> ofertas;
 
 	@Deprecated
 	public Pedido() {
@@ -135,6 +141,18 @@ public class Pedido {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	public List<Oferta> getOfertas() {
+		return Collections.unmodifiableList(this.ofertas);
+	}
+
+	public void setOfertas(List<Oferta> ofertas) {
+		this.ofertas = ofertas;
+	}
+	
+	public void adicionaOferta(Oferta oferta) {
+		this.ofertas.add(oferta);
 	}
 
 	@Override
