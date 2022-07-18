@@ -2,9 +2,10 @@ package br.com.alura.mvc.api;
 
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,7 +26,7 @@ public class OfertasRest {
 
 
 	@PostMapping
-	public ResponseEntity<OfertaResponse> criarOferta(@RequestBody OfertaRequest request) {
+	public ResponseEntity<OfertaResponse> criarOferta(@RequestBody @Valid OfertaRequest request) {
 		Optional<Pedido> possivelPedido = pedidoRepository.findById(request.getIdPedido());
 
 		if (!possivelPedido.isPresent()) {

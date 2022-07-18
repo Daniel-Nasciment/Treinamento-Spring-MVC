@@ -40,10 +40,10 @@
 						</div>
 						<div class="row mt-2">
 							<div class="col-md-5">
-								Valor: <input class="form-control" v-model="pedido.valorProduto" />
+								Valor: <input class="form-control" v-model="pedido.valorProduto" placeholder="EX: 1.99"/>
 							</div>
 							<div class="col-md-7">
-								Data entrega: <input class="form-control" v-model="pedido.dataEntrega" />
+								Data entrega: <input class="form-control" v-model="pedido.dataEntrega" placeholder="10/10/2022"/>
 							</div>
 						</div>
 						<div class="mt-1">
@@ -51,6 +51,7 @@
 							<textarea class="form-control" rows="" cols="" v-model="pedido.comentario"></textarea>
 						</div>
 						<!-- V-ON:CLICK É NO MOMENTO DE CLICK DESSE BOTÃO, ELE VAI EXECUTAR UMA FUNÇÃO QUE EU CRIEI enviarOferta -->
+						<!-- pedido.ofertaENviada é um novo atribuito criado -->
 						<button v-if="pedido.ofertaEnviada" class="btn btn-success mt-2">Oferta enviada</button>
 						<button v-else v-on:click="enviarOferta(pedido)" class="btn btn-primary mt-2">Cadastrar Oferta</button>
 					</div>
@@ -80,6 +81,7 @@
 					axios
 						.get('http://localhost:8080/api/pedidos/aguardando')
 						.then(response => { 
+							// INICIALIZO ofertaEnviada COMO FALSE NO MOMENTO DE LISTAGEM DOS PEDIDOS
 							response.data.forEach(pedido => pedido.ofertaEnviada = false)
 							this.pedidos = response.data
 						})
@@ -96,6 +98,7 @@
 								dataEntrega: pedido.dataEntrega,
 								comentario: pedido.comentario,
 							})
+							// AO SER FEITO O POST, SETO ofertaEnviada PARA TRUE PARA UMA LOGICA DE EXIBIÇÃO DO FRONT
 							.then(response => pedido.ofertaEnviada = true)
 					}
 

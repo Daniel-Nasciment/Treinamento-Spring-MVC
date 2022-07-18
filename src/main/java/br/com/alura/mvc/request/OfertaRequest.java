@@ -4,6 +4,9 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
+
 import br.com.alura.mvc.model.Oferta;
 
 public class OfertaRequest {
@@ -12,8 +15,20 @@ public class OfertaRequest {
 	
 	private Integer idPedido;
 
+	// ^ - COMEÇAR
+	// d - DIGITO
+	// d+ - VARIOS DIGITOS
+	// ()? - OPCIONAL
+	// \\ QUALQUER COISA QUE É SEGUIDA DE \\ É OBRIGATORIO
+	// \\. - OBRIGATORIO O '.'  
+	// d+{2} - LIMITE DE CARACTERES ENTRE {}
+	// $ - ACABOU A STRING / NÃO ESPERO MAIS NADA
+	
+	@Pattern(regexp = "^\\d+(\\.\\d{2})")
+	@NotBlank
 	private String valorProduto;
 
+	@Pattern(regexp = "^\\d{2}/\\d{2}/\\d{4}$")
 	private String dataEntrega;
 
 	private String comentario;
