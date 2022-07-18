@@ -1,0 +1,98 @@
+<html>
+
+<head th:replace="~{base :: head}">
+
+</head>
+
+<!-- QUANDO O BODY FOR CARREGADO CHAMARA ESSA FUNÇÃO -->
+
+<body onload="onLoad()">
+
+	<div th:replace="~{base :: logo}"></div>
+
+	<!--PASSANDO O ID "ofertas" QUE É DEFINIDO NA MINHA FUNÇÃO onLoad -->
+	<div class="container" id="ofertas">
+
+		<div th:replace="~{base :: titulo('Últimos Pedidos')}"></div>
+
+
+		<!-- FAZENDO FOREACH NA LISTA COM VUE JS-->
+		<div class="card mb-3" v-for="pedido in pedidos">
+
+			<!-- ACESSANDO ATRIBUTO DO FOREACH COM A SINTAXE {{ OBJ.ATRIBUTO }} -->
+			<div class="card-header alert-dark">{{pedido.nomeProduto}}</div>
+			
+			<div class="card-body">
+				<div class="row">
+					<div class="col-12 col-sm-8 mb-3">
+
+						<div class="row">
+							<div class="col-md-5">
+								Valor: <input />
+							</div>
+							<div class="col-md-7">
+								Data entrega: <input />
+							</div>
+						</div>
+
+						<div>Produto</div>
+						<!-- USANDO HREF COM VUE JS-->
+						<div> <a v-bind:href="pedido.urlProduto">{{pedido.nomeProduto}}</a></div>
+
+						<div>Descriçao</div>
+						<div>
+							<textarea class="form-control" rows="" cols="">{{pedido.descricao}}</textarea>
+						</div>
+					</div>
+					<div class="col-12 col-sm-4">
+						<div>
+							<!-- USANDO SRC COM VUE JS-->
+							<img class="img-thumbnail" v-bind:src="pedido.urlImagem" />
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+	<script>
+
+		function onLoad() {
+			var app = new Vue({
+				el: '#ofertas',
+				data: {
+					pedidos: [
+						{
+							"id": 9,
+							"nomeProduto": "iPhone 12 64GB AZUL",
+							"urlImagem": "https://m.media-amazon.com/images/I/51misXwIxAL._AC_SX679_.jpg",
+							"urlProduto": "https://www.amazon.com.br/Apple-iPhone-12-128-GB-Azul/dp/B09B2T1Z7Z/ref=sr_1_3_sspa?__mk_pt_BR=%C3%85M%C3%85%C5%BD%C3%95%C3%91&crid=U65I0E5FGRNA&keywords=iphone+12&qid=1647202249&sprefix=iphone+12%2Caps%2C415&sr=8-3-spons&ufe=app_do%3Aamzn1.fos.25548f35-0de7-44b3-b28e-0f56f3f96147&psc=1&spLa=ZW5jcnlwdGVkUXVhbGlmaWVyPUEzRlZIVE5WRVlGMTNJJmVuY3J5cHRlZElkPUEwNzQ0MjE4RTJGQ0VSSkdQTFM4JmVuY3J5cHRlZEFkSWQ9QTA1NzQwNjYxOVVQS0NBWExZVExRJndpZGdldE5hbWU9c3BfYXRmJmFjdGlvbj1jbGlja1JlZGlyZWN0JmRvTm90TG9nQ2xpY2s9dHJ1ZQ==",
+							"valorProduto": null,
+							"dataEntrega": null,
+							"descricao": "Um celular azul legal.",
+							"status": "AGUARDANDO"
+						},
+						{
+							"id": 8,
+							"nomeProduto": "iPhone 12 1TB",
+							"urlImagem": "https://m.media-amazon.com/images/I/51misXwIxAL._AC_SX679_.jpg",
+							"urlProduto": "https://m.media-amazon.com/images/I/51misXwIxAL._AC_SX679_.jpg",
+							"valorProduto": null,
+							"dataEntrega": null,
+							"descricao": "um Mega iPhone com 1 TB de armazenamento.",
+							"status": "AGUARDANDO"
+						}
+					]
+				}
+			});
+		}
+
+	</script>
+
+<script src="https://cdn.jsdelivr.net/npm/vue@2.7.4/dist/vue.js"></script>
+
+</body>
+
+</html>
