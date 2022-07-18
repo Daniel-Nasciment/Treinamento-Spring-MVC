@@ -23,10 +23,6 @@ public class OfertasRest {
 	@Autowired
 	private PedidoRepository pedidoRepository;
 
-	@GetMapping(value = "/teste")
-	public String getMethodName() {
-		return "deu certo";
-	}
 
 	@PostMapping
 	public ResponseEntity<OfertaResponse> criarOferta(@RequestBody OfertaRequest request) {
