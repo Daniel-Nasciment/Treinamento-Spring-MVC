@@ -6,6 +6,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,12 +37,19 @@ public class PedidosRest {
 	}
 	
 	@GetMapping
-	// @RequestParam INDICA AO SPRING QUE ESSES ATRIBUTOS VAO VIR NA URL E SÃO OBRIGATÓRIOS
-	public ResponseEntity<Page<PedidoResponse>> getPedidos(@RequestParam int pg, @RequestParam int qtd) {
+	public ResponseEntity<Page<PedidoResponse>> getPedidos(@PageableDefault(size = 1) Pageable pageable) {
 		
-		Pageable paginacao = PageRequest.of(pg, qtd, Direction.ASC, "id");
 		
-		Page<Pedido> list = pedidoRepository.findAll(paginacao);
+		// @PageableDefault GARANTE QUE SE ALGUM PARAMETRO NA URL FOR INVALIDO O SPRING DATA FARA A PAGINACAO DEFALT DEFINIDA
+		
+		// POR PADRÃO O SPRING VAI ACEITAR OS SEGUINTES ATREIBUTOS NA URL:
+		
+		//page - PAGINA
+		//size - QUANTIDADE
+		//sort - ORDENAÇÃO (NOME DO ATRIBUTO)
+		//,asc - CRESCENTE OU DECRESCENTE
+		
+		Page<Pedido> list = pedidoRepository.findAll(pageable);
 		
 		return ResponseEntity.ok(PedidoResponse.toResponse(list));
 	}
