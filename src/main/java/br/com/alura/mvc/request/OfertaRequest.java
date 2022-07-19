@@ -29,6 +29,7 @@ public class OfertaRequest {
 	private String valorProduto;
 
 	@Pattern(regexp = "^\\d{2}/\\d{2}/\\d{4}$")
+	@NotBlank
 	private String dataEntrega;
 
 	private String comentario;

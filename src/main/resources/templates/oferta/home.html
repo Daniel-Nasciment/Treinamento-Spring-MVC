@@ -40,10 +40,22 @@
 						</div>
 						<div class="row mt-2">
 							<div class="col-md-5">
-								Valor: <input class="form-control" v-model="pedido.valorProduto" placeholder="EX: 1.99"/>
+								<!-- V-BIND ESTÁ SENDO UTILIZADO POR CONTA DA CLASS INVALID FEEDBACK, ELA SÓ É ATIVADA QUANDO O IMPUT É MARCADO COM A CLASS IS-INVALID -->
+								Valor: <input class="form-control"
+									v-bind:class="{'is-invalid':pedido.errors.valorProduto !== ''}"
+									v-model="pedido.valorProduto" placeholder="EX: 1.99" />
+								<div v-if="pedido.errors.valorProduto" class="invalid-feedback">
+									{{pedido.errors.valorProduto}}
+								</div>
 							</div>
 							<div class="col-md-7">
-								Data entrega: <input class="form-control" v-model="pedido.dataEntrega" placeholder="10/10/2022"/>
+								<!-- V-BIND ESTÁ SENDO UTILIZADO POR CONTA DA CLASS INVALID FEEDBACK, ELA SÓ É ATIVADA QUANDO O IMPUT É MARCADO COM A CLASS IS-INVALID -->
+								Data entrega: <input class="form-control"
+									v-bind:class="{'is-invalid':pedido.errors.dataEntrega !== ''}"
+									v-model="pedido.dataEntrega" placeholder="10/10/2022" />
+								<div v-if="pedido.errors.dataEntrega" class="invalid-feedback">
+									{{pedido.errors.dataEntrega}}
+								</div>
 							</div>
 						</div>
 						<div class="mt-1">
@@ -53,7 +65,8 @@
 						<!-- V-ON:CLICK É NO MOMENTO DE CLICK DESSE BOTÃO, ELE VAI EXECUTAR UMA FUNÇÃO QUE EU CRIEI enviarOferta -->
 						<!-- pedido.ofertaENviada é um novo atribuito criado -->
 						<button v-if="pedido.ofertaEnviada" class="btn btn-success mt-2">Oferta enviada</button>
-						<button v-else v-on:click="enviarOferta(pedido)" class="btn btn-primary mt-2">Cadastrar Oferta</button>
+						<button v-else v-on:click="enviarOferta(pedido)" class="btn btn-primary mt-2">Cadastrar
+							Oferta</button>
 					</div>
 					<div class="col-12 col-sm-4">
 						<div>
@@ -80,9 +93,15 @@
 				mounted() {
 					axios
 						.get('http://localhost:8080/api/pedidos/aguardando')
-						.then(response => { 
+						.then(response => {
 							// INICIALIZO ofertaEnviada COMO FALSE NO MOMENTO DE LISTAGEM DOS PEDIDOS
-							response.data.forEach(pedido => pedido.ofertaEnviada = false)
+							response.data.forEach(pedido => {
+								pedido.ofertaEnviada = false
+								pedido.errors = {
+									valorProduto: '',
+									dataEntrega: ''
+								}
+							})
 							this.pedidos = response.data
 						})
 					// OS DADOS QUE VEM NO RESPONSE FICAM DENTRO DO ".DATA"
@@ -90,7 +109,12 @@
 				// AQUI PODEMOS CRIAR OS MÉTODOS QUE NOS QUISERMOS
 				methods: {
 
-					enviarOferta: function(pedido) {
+					enviarOferta: function (pedido) {
+						// AO FAZER A REQUISIÇÃO, CASO OS CAMPOS SEJAM VALIDOS, ELE RESETA OS CAMPOS QUE APRESENTAVAM O ERRO
+						pedido.errors = {
+							valorProduto: '',
+							dataEntrega: ''
+						};
 						axios
 							.post('http://localhost:8080/api/ofertas', {
 								idPedido: pedido.id,
@@ -100,6 +124,11 @@
 							})
 							// AO SER FEITO O POST, SETO ofertaEnviada PARA TRUE PARA UMA LOGICA DE EXIBIÇÃO DO FRONT
 							.then(response => pedido.ofertaEnviada = true)
+							.catch(error => {
+								error.response.data.errors.forEach(error => {
+									pedido.errors[error.field] = error.defaultMessage;
+								})
+							})
 					}
 
 
