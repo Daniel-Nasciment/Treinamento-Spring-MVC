@@ -3,9 +3,11 @@ package br.com.alura.mvc.response;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+import br.com.alura.mvc.model.Oferta;
+
 public class OfertaResponse {
 
-	private Long id;
+	private Integer id;
 
 	private BigDecimal valor;
 
@@ -13,13 +15,23 @@ public class OfertaResponse {
 
 	private String comentario;
 
-	private Long idPedido;
+	private Integer idPedido;
 
-	public Long getId() {
+	public OfertaResponse(Oferta oferta) {
+		
+		this.id = oferta.getId();
+		this.valor = oferta.getValor();
+		this.dataEntrega = oferta.getDataEntrega();
+		this.comentario = oferta.getComentario();
+		this.idPedido = oferta.getPedido().getId();
+
+	}
+
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -47,12 +59,13 @@ public class OfertaResponse {
 		this.comentario = comentario;
 	}
 
-	public Long getIdPedido() {
+	public Integer getIdPedido() {
 		return idPedido;
 	}
 
-	public void setIdPedido(Long idPedido) {
+	public void setIdPedido(Integer idPedido) {
 		this.idPedido = idPedido;
 	}
 
+	
 }
