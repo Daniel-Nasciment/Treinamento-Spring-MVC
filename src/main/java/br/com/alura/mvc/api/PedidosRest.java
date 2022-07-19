@@ -1,6 +1,5 @@
 package br.com.alura.mvc.api;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,23 +26,12 @@ public class PedidosRest {
 	public ResponseEntity<List<PedidoResponse>> getPedidosAguardandoOfertas() {
 		
 		
-		List<PedidoResponse> listResponse = new ArrayList<>();
-		
 		Sort sort = Sort.by("id").descending();
 		PageRequest paginacao = PageRequest.of(0, 2, sort);
 		
 		List<Pedido> list = pedidoRepository.findByStatus(StatusPedido.AGUARDANDO, paginacao);
 		
-		list.forEach(p -> {
-			
-			PedidoResponse response = new PedidoResponse();
-			
-			response.toResponse(p);
-			
-			listResponse.add(response);
-			
-		});	
-		return ResponseEntity.ok(listResponse);
+		return ResponseEntity.ok(PedidoResponse.toResponse(list));
 	}
 
 	
