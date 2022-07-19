@@ -1,0 +1,149 @@
+<html>
+
+<head th:replace="~{base :: head}">
+
+</head>
+
+<!-- QUANDO O BODY FOR CARREGADO CHAMARA ESSA FUNÇÃO -->
+
+<body onload="onLoad()">
+
+	<div th:replace="~{base :: logo}"></div>
+
+	<!--PASSANDO O ID "ofertas" QUE É DEFINIDO NA MINHA FUNÇÃO onLoad -->
+	<div class="container" id="ofertas">
+
+		<!-- THYMELEAF É PROCESSADO NO LADO DO SERVIDOR, ENQUANTO O VUE/ANGULAR/REACT SÃO RENDERIZADOS NO BROWSER -->
+		<div th:replace="~{base :: titulo('Últimos Pedidos')}"></div>
+
+
+		<!-- FAZENDO FOREACH NA LISTA COM VUE JS-->
+		<div class="card mb-3" v-for="pedido in pedidos">
+
+			<!-- ACESSANDO ATRIBUTO DO FOREACH COM A SINTAXE {{ OBJ.ATRIBUTO }} -->
+			<div class="card-header alert-dark">{{pedido.nomeProduto}}</div>
+
+			<div class="card-body">
+				<div class="row">
+					<div class="col-12 col-sm-8 mb-3">
+
+
+
+						<div>Produto</div>
+						<!-- USANDO HREF COM VUE JS-->
+						<div> <a v-bind:href="pedido.urlProduto">{{pedido.nomeProduto}}</a></div>
+
+						<div>Descriçao</div>
+						<div>
+							<textarea disabled="disabled" class="form-control" rows=""
+								cols="">{{pedido.descricao}}</textarea>
+						</div>
+						<div class="row mt-2">
+							<div class="col-md-5">
+								<!-- V-BIND ESTÁ SENDO UTILIZADO POR CONTA DA CLASS INVALID FEEDBACK, ELA SÓ É ATIVADA QUANDO O IMPUT É MARCADO COM A CLASS IS-INVALID -->
+								Valor: <input class="form-control"
+									v-bind:class="{'is-invalid':pedido.errors.valorProduto !== ''}"
+									v-model="pedido.valorProduto" placeholder="EX: 1.99" />
+								<div v-if="pedido.errors.valorProduto" class="invalid-feedback">
+									{{pedido.errors.valorProduto}}
+								</div>
+							</div>
+							<div class="col-md-7">
+								<!-- V-BIND ESTÁ SENDO UTILIZADO POR CONTA DA CLASS INVALID FEEDBACK, ELA SÓ É ATIVADA QUANDO O IMPUT É MARCADO COM A CLASS IS-INVALID -->
+								Data entrega: <input class="form-control"
+									v-bind:class="{'is-invalid':pedido.errors.dataEntrega !== ''}"
+									v-model="pedido.dataEntrega" placeholder="10/10/2022" />
+								<div v-if="pedido.errors.dataEntrega" class="invalid-feedback">
+									{{pedido.errors.dataEntrega}}
+								</div>
+							</div>
+						</div>
+						<div class="mt-1">
+							<label>Comentário</label>
+							<textarea class="form-control" rows="" cols="" v-model="pedido.comentario"></textarea>
+						</div>
+						<!-- V-ON:CLICK É NO MOMENTO DE CLICK DESSE BOTÃO, ELE VAI EXECUTAR UMA FUNÇÃO QUE EU CRIEI enviarOferta -->
+						<!-- pedido.ofertaENviada é um novo atribuito criado -->
+						<button v-if="pedido.ofertaEnviada" class="btn btn-success mt-2">Oferta enviada</button>
+						<button v-else v-on:click="enviarOferta(pedido)" class="btn btn-primary mt-2">Cadastrar
+							Oferta</button>
+					</div>
+					<div class="col-12 col-sm-4">
+						<div>
+							<!-- USANDO SRC COM VUE JS-->
+							<img class="img-thumbnail" v-bind:src="pedido.urlImagem" />
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+	<script>
+
+		function onLoad() {
+			var app = new Vue({
+				el: '#ofertas',
+				data: {
+					pedidos: []
+				},
+				// MONTED É UMA FUNÇÃO QUE É EXECUTADA AUTOMATICAMENTE APÓS A RENDERIZAÇÃO DO HTML
+				mounted() {
+					axios
+						.get('http://localhost:8080/api/pedidos/aguardando')
+						.then(response => {
+							// INICIALIZO ofertaEnviada COMO FALSE NO MOMENTO DE LISTAGEM DOS PEDIDOS
+							response.data.forEach(pedido => {
+								pedido.ofertaEnviada = false
+								pedido.errors = {
+									valorProduto: '',
+									dataEntrega: ''
+								}
+							})
+							this.pedidos = response.data
+						})
+					// OS DADOS QUE VEM NO RESPONSE FICAM DENTRO DO ".DATA"
+				},
+				// AQUI PODEMOS CRIAR OS MÉTODOS QUE NOS QUISERMOS
+				methods: {
+
+					enviarOferta: function (pedido) {
+						// AO FAZER A REQUISIÇÃO, CASO OS CAMPOS SEJAM VALIDOS, ELE RESETA OS CAMPOS QUE APRESENTAVAM O ERRO
+						pedido.errors = {
+							valorProduto: '',
+							dataEntrega: ''
+						};
+						axios
+							.post('http://localhost:8080/api/ofertas', {
+								idPedido: pedido.id,
+								valorProduto: pedido.valorProduto,
+								dataEntrega: pedido.dataEntrega,
+								comentario: pedido.comentario,
+							})
+							// AO SER FEITO O POST, SETO ofertaEnviada PARA TRUE PARA UMA LOGICA DE EXIBIÇÃO DO FRONT
+							.then(response => pedido.ofertaEnviada = true)
+							.catch(error => {
+								error.response.data.errors.forEach(error => {
+									pedido.errors[error.field] = error.defaultMessage;
+								})
+							})
+					}
+
+
+				}
+			});
+		}
+
+	</script>
+
+	<!-- START VUE JS -->
+	<script src="https://cdn.jsdelivr.net/npm/vue@2.7.4/dist/vue.js"></script>
+
+	<!-- START AXIOS -> PARA FAZER A REQUEST PARA O BACKEND -->
+	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+</body>
+
+</html>

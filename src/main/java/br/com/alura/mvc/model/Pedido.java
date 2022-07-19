@@ -2,14 +2,20 @@ package br.com.alura.mvc.model;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Collections;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import br.com.alura.mvc.enuns.StatusPedido;
@@ -21,7 +27,7 @@ public class Pedido {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ID")
-	private Long id;
+	private Integer id;
 
 	@Column(name = "NOME_PRODUTO")
 	private String nomeProduto;
@@ -45,30 +51,31 @@ public class Pedido {
 	@Enumerated(EnumType.STRING)
 	private StatusPedido status;
 
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private User user;
+
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "pedido", fetch = FetchType.LAZY)
+	private List<Oferta> ofertas;
+
 	@Deprecated
 	public Pedido() {
 	}
 
-	public Pedido(String nomeProduto, String urlImagem, String urlProduto, String descricao) {
-		this.nomeProduto = nomeProduto;
-		this.urlImagem = urlImagem;
-		this.urlProduto = urlProduto;
-		this.descricao = descricao;
-	}
-
-	public Pedido(String nomeProduto, String urlImagem, String urlProduto, String descricao, StatusPedido status) {
+	public Pedido(String nomeProduto, String urlImagem, String urlProduto, String descricao, StatusPedido status,
+			User user) {
 		this.nomeProduto = nomeProduto;
 		this.urlImagem = urlImagem;
 		this.urlProduto = urlProduto;
 		this.descricao = descricao;
 		this.status = status;
+		this.user = user;
 	}
 
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -126,6 +133,33 @@ public class Pedido {
 
 	public void setStatus(StatusPedido status) {
 		this.status = status;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public List<Oferta> getOfertas() {
+		return Collections.unmodifiableList(this.ofertas);
+	}
+
+	public void setOfertas(List<Oferta> ofertas) {
+		this.ofertas = ofertas;
+	}
+	
+	public void adicionaOferta(Oferta oferta) {
+		this.ofertas.add(oferta);
+	}
+
+	@Override
+	public String toString() {
+		return "Pedido [id=" + id + ", nomeProduto=" + nomeProduto + ", urlImagem=" + urlImagem + ", urlProduto="
+				+ urlProduto + ", valorProduto=" + valorProduto + ", dataEntrega=" + dataEntrega + ", descricao="
+				+ descricao + ", status=" + status + ", user=" + user + "]";
 	}
 
 }
