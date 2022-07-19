@@ -3,6 +3,7 @@ package br.com.alura.mvc.repository;
 import java.util.List;
 
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -16,7 +17,7 @@ import br.com.alura.mvc.model.Pedido;
 public interface PedidoRepository extends JpaRepository<Pedido, Integer> {
 
 	@Cacheable("pedidos")
-	List<Pedido> findByStatus(StatusPedido status, Pageable pageable);
+	Page<Pedido> findByStatus(StatusPedido status, Pageable pageable);
 
 	@Query("select p from Pedido p join p.user u where u.username = :name")
 	List<Pedido> findAllByUsername(@Param("name") String name);

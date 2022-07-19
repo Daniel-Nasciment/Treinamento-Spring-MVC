@@ -2,8 +2,8 @@ package br.com.alura.mvc.response;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.List;
-import java.util.stream.Collectors;
+
+import org.springframework.data.domain.Page;
 
 import br.com.alura.mvc.enuns.StatusPedido;
 import br.com.alura.mvc.model.Pedido;
@@ -103,10 +103,10 @@ public class PedidoResponse {
 		this.status = status;
 	}
 
-	public static List<PedidoResponse> toResponse(List<Pedido> pedidos) {
+	public static Page<PedidoResponse> toResponse(Page<Pedido> pedidos) {
 
 		// PedidoResponse::new -> CHAMA O PROPRIO CONSTRUTOR QUE RECEBE O PEDIDO COMO PARAMETRO
-		return pedidos.stream().map(PedidoResponse::new).collect(Collectors.toList());
+		return pedidos.map(PedidoResponse::new);
 
 	}
 }
