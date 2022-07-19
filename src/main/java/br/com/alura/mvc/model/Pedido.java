@@ -54,6 +54,8 @@ public class Pedido {
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private User user;
 
+	// RELACIONAMENTOS TERMINADOS EM ONE (ONETOONE E MANYTOONE) POR PADRÃO É EAGER
+	// RELACIONAMENTOS TERMINADOS EM MANY (ONETOMANY E MANYTOMANY) POR PADRÃO É LAZY
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "pedido", fetch = FetchType.EAGER)
 	private List<Oferta> ofertas;
 
