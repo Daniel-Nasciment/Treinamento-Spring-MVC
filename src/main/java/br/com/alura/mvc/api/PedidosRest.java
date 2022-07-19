@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,8 +28,7 @@ public class PedidosRest {
 	// @RequestParam INDICA AO SPRING QUE ESSES ATRIBUTOS VAO VIR NA URL E SÃO OBRIGATÓRIOS
 	public ResponseEntity<Page<PedidoResponse>> getPedidosAguardandoOfertas(@RequestParam int pg, @RequestParam int qtd) {
 		
-		Sort sort = Sort.by("id").descending();
-		Pageable paginacao = PageRequest.of(pg, qtd, sort);
+		Pageable paginacao = PageRequest.of(pg, qtd, Direction.ASC, "id");
 		
 		Page<Pedido> list = pedidoRepository.findByStatus(StatusPedido.AGUARDANDO, paginacao);
 		
@@ -39,8 +39,7 @@ public class PedidosRest {
 	// @RequestParam INDICA AO SPRING QUE ESSES ATRIBUTOS VAO VIR NA URL E SÃO OBRIGATÓRIOS
 	public ResponseEntity<Page<PedidoResponse>> getPedidos(@RequestParam int pg, @RequestParam int qtd) {
 		
-		Sort sort = Sort.by("id").descending();
-		PageRequest paginacao = PageRequest.of(pg, qtd, sort);
+		Pageable paginacao = PageRequest.of(pg, qtd, Direction.ASC, "id");
 		
 		Page<Pedido> list = pedidoRepository.findAll(paginacao);
 		
