@@ -24,6 +24,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		// ESSE MÉTODO userDetailsService EXIGE UM SERVIÇO QUE IMPLEMENTE A INTERFACE UserDetailsService
+		
+		// ESSA FORMA DE AUTENTICAÇÃO É CRIADO UMA SESSÃO ARMAZENADO NA MEMÓRIA
+		// E EM UMA API REST A AUTENTICAÇÃO DEVE SER STATELESS
 		auth.userDetailsService(authenticationService).passwordEncoder(new BCryptPasswordEncoder());
 	}
 
