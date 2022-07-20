@@ -45,7 +45,7 @@ public class TokenService {
 
 		try {
 			// ESSE MÉTODO CASO O TOKEN ESTEJA VALIDO DEVOLVERA UM OBJETO
-			// SE NESTIVER INVALIDO OU NULL ELE JOGA UMA EXCEPTION
+			// SE N ESTIVER INVALIDO OU NULL ELE JOGA UMA EXCEPTION
 			Jwts.parser().setSigningKey(this.secret).parseClaimsJws(tokenRecovered);
 			
 			// SE CHEGOU AQUI O TOKEN ESTÁ VALIDO
