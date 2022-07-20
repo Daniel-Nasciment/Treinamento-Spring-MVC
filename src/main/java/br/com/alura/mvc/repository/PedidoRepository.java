@@ -16,7 +16,7 @@ import br.com.alura.mvc.model.Pedido;
 @Repository
 public interface PedidoRepository extends JpaRepository<Pedido, Integer> {
 
-	@Cacheable("pedidos")
+	@Cacheable(value = "pedidos") // FUNCIONA COMO ID DO CACHE
 	Page<Pedido> findByStatus(StatusPedido status, Pageable pageable);
 
 	@Query("select p from Pedido p join p.user u where u.username = :name")

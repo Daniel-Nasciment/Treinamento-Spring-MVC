@@ -2,15 +2,11 @@ package br.com.alura.mvc.api;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.alura.mvc.enuns.StatusPedido;
@@ -26,10 +22,7 @@ public class PedidosRest {
 	private PedidoRepository pedidoRepository;
 	
 	@GetMapping(value = "/aguardando")
-	// @RequestParam INDICA AO SPRING QUE ESSES ATRIBUTOS VAO VIR NA URL E SÃO OBRIGATÓRIOS
-	public ResponseEntity<Page<PedidoResponse>> getPedidosAguardandoOfertas(@RequestParam int pg, @RequestParam int qtd) {
-		
-		Pageable paginacao = PageRequest.of(pg, qtd, Direction.ASC, "id");
+	public ResponseEntity<Page<PedidoResponse>> getPedidosAguardandoOfertas(@PageableDefault(size = 5) Pageable paginacao) {
 		
 		Page<Pedido> list = pedidoRepository.findByStatus(StatusPedido.AGUARDANDO, paginacao);
 		
