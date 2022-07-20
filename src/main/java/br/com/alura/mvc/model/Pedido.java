@@ -51,6 +51,7 @@ public class Pedido {
 	@Enumerated(EnumType.STRING)
 	private StatusPedido status;
 
+	// RESOLVENDO O PROBLEMA org.hibernate.PersistentObjectException: detached entity passed to persist
 	@ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
 	private User user;
 
