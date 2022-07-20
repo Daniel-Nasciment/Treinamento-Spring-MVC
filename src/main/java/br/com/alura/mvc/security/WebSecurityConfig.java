@@ -22,6 +22,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private AuthenticationService authenticationService;
 	
+	@Autowired
+	private TokenService tokenService;
+	
 	
 	// DESSA FORMA CONSEGUIMOS INJETAR NO NOSSO CONTROLLER
 	@Override
@@ -56,7 +59,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 		// POR PADRÃO O SPRING JÁ POSSUI UL FILTER ENTÃO PRECISO USAR O MÉTODO addFilterBefore
 		// ISSO SIGNIFICA QUE NOSSO FILTER VEM ANTES DO UsernamePasswordAuthenticationFilter
-		.and().addFilterBefore(new AuthenticationFilterToken(), UsernamePasswordAuthenticationFilter.class);
+		.and().addFilterBefore(new AuthenticationFilterToken(tokenService), UsernamePasswordAuthenticationFilter.class);
 	}
 
 	
