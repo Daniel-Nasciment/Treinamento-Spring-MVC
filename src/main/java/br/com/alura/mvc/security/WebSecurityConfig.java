@@ -7,6 +7,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import br.com.alura.mvc.service.AuthenticationService;
@@ -30,14 +31,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		auth.userDetailsService(authenticationService).passwordEncoder(new BCryptPasswordEncoder());
 	}
 
+	// csrf - ATAQUE HACKER, PORÉM COMO FAREMOS A AUTHENTICAÇÃO VIA TOKEN, JÁ ESTAMOS LIVRES DESSE TIPO DE ATAQUE
+	// MAS SÓ DESABILITAMOS PARA QUE O SPRING SECUTIRY NÃO FAÇA A VALIDAÇÃO DO TOKEN CSRF
 	
 	// CONFIGURAÇÕES DE AUTORIZAÇÃO (URL)
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
-		.antMatchers("/api/pedidos").permitAll()
+		.antMatchers("/api/login").permitAll()
 		.anyRequest().authenticated()
-		.and().formLogin() ;
+		.and().csrf().disable()
+		// AO SE AUTHENTICAR NÃO É PARA CRIAR SESSÃO
+		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 	}
 
 	
