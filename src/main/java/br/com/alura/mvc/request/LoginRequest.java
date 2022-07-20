@@ -2,6 +2,8 @@ package br.com.alura.mvc.request;
 
 import javax.validation.constraints.NotBlank;
 
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+
 public class LoginRequest {
 
 	@NotBlank
@@ -24,6 +26,10 @@ public class LoginRequest {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public UsernamePasswordAuthenticationToken toLoginAuthentication() {
+		return new UsernamePasswordAuthenticationToken(this.username, this.password);
 	}
 
 }
