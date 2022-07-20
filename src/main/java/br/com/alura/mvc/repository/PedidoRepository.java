@@ -29,4 +29,6 @@ public interface PedidoRepository extends JpaRepository<Pedido, Integer> {
 	@Cacheable(value = "pedidosAll")
 	Page<Pedido> findAll(Pageable pageable);
 
+	
+	// É UMA BOA PRATICA USAR CACHE EM TABLEAS EM QUE NUNCA/RARAMENTE É ATUALIZADO ALGUMA INFORMAÇÃO
 }
