@@ -7,6 +7,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import br.com.alura.mvc.model.User;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
@@ -54,6 +55,17 @@ public class TokenService {
 			return false;
 		}
 
+	}
+
+	// RECUPERA ID DO USUARIO DENTRO DO TOKEN
+	public Integer getUser(String tokenRecovered) {
+		
+		Claims claims = Jwts.parser().setSigningKey(this.secret).parseClaimsJws(tokenRecovered).getBody();
+		
+		// AQUI ESTÁ O ID DO USUÁRIO
+		String idUser = claims.getSubject();
+		
+		return Integer.valueOf(idUser);
 	}
 
 }

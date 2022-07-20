@@ -13,6 +13,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import br.com.alura.mvc.repository.UserRepository;
 import br.com.alura.mvc.service.AuthenticationService;
 
 @Configuration
@@ -24,6 +25,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
 	private TokenService tokenService;
+	
+	@Autowired
+	private UserRepository userRepository;
 	
 	
 	// DESSA FORMA CONSEGUIMOS INJETAR NO NOSSO CONTROLLER
@@ -59,7 +63,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 		// POR PADRÃO O SPRING JÁ POSSUI UL FILTER ENTÃO PRECISO USAR O MÉTODO addFilterBefore
 		// ISSO SIGNIFICA QUE NOSSO FILTER VEM ANTES DO UsernamePasswordAuthenticationFilter
-		.and().addFilterBefore(new AuthenticationFilterToken(tokenService), UsernamePasswordAuthenticationFilter.class);
+		.and().addFilterBefore(new AuthenticationFilterToken(tokenService, userRepository), UsernamePasswordAuthenticationFilter.class);
 	}
 
 	
