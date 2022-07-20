@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import br.com.alura.mvc.service.AuthenticationService;
 
@@ -52,7 +53,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		.anyRequest().authenticated()
 		.and().csrf().disable()
 		// AO SE AUTHENTICAR NÃO É PARA CRIAR SESSÃO
-		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+		// POR PADRÃO O SPRING JÁ POSSUI UL FILTER ENTÃO PRECISO USAR O MÉTODO addFilterBefore
+		// ISSO SIGNIFICA QUE NOSSO FILTER VEM ANTES DO UsernamePasswordAuthenticationFilter
+		.and().addFilterBefore(new AuthenticationFilterToken(), UsernamePasswordAuthenticationFilter.class);
 	}
 
 	
