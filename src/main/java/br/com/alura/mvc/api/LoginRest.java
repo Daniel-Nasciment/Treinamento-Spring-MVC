@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.alura.mvc.request.LoginRequest;
+import br.com.alura.mvc.response.TokenResponse;
 import br.com.alura.mvc.security.TokenService;
 
 @RestController
@@ -28,7 +29,7 @@ public class LoginRest {
 	private TokenService tokenService;
 
 	@PostMapping
-	public ResponseEntity<?> authentication(@RequestBody @Valid LoginRequest request) {
+	public ResponseEntity<TokenResponse> authentication(@RequestBody @Valid LoginRequest request) {
 		
 		UsernamePasswordAuthenticationToken login = request.toLoginAuthentication();
 		
@@ -38,7 +39,7 @@ public class LoginRest {
 			
 			String token = tokenService.gerarToken(authentication);
 			
-			return ResponseEntity.ok(token);
+			return ResponseEntity.ok(new TokenResponse(token, "Bearer"));
 			
 		} catch (AuthenticationException e) {
 			
