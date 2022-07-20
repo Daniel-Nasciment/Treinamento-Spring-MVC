@@ -25,7 +25,7 @@ public class User {
 
 	// FETCH TYPE LAZY (SE EU CARREGAR O USUARIO NÃO SERÁ CARREGADO OS PEDIDOS DO
 	// USUÁRIO)
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
 	private List<Pedido> pedidos;
 
 	public Integer getId() {

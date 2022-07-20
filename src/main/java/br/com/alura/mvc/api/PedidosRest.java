@@ -30,7 +30,7 @@ public class PedidosRest {
 	}
 	
 	@GetMapping
-	public ResponseEntity<Page<PedidoResponse>> getPedidos(@PageableDefault(size = 1) Pageable pageable) {
+	public ResponseEntity<Page<PedidoResponse>> getPedidos(@PageableDefault(size = 30) Pageable pageable) {
 		
 		
 		// @PageableDefault GARANTE QUE SE ALGUM PARAMETRO NA URL FOR INVALIDO O SPRING DATA FARA A PAGINACAO DEFALT DEFINIDA

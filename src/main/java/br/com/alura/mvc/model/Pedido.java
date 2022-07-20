@@ -51,7 +51,7 @@ public class Pedido {
 	@Enumerated(EnumType.STRING)
 	private StatusPedido status;
 
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
 	private User user;
 
 	// RELACIONAMENTOS TERMINADOS EM ONE (ONETOONE E MANYTOONE) POR PADRÃO É EAGER

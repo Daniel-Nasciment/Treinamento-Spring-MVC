@@ -5,6 +5,7 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -36,6 +37,7 @@ public class PedidoController {
 
 	
 	// @RequestMapping barra alguns media types
+	@CacheEvict(value = "pedidosAll")
 	@PostMapping(value = "/novo")
 	public String novoPedido(@Valid PedidoRequest request, BindingResult result) {
 
@@ -52,7 +54,6 @@ public class PedidoController {
 		
 		if(oUsername.isPresent()) {
 			Pedido pedido = request.toModel(oUsername.get());
-			
 			pedidoRepository.save(pedido);
 			
 			return "redirect:/home";
