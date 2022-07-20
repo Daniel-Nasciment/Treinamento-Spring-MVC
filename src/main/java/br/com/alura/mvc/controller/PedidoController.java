@@ -36,8 +36,8 @@ public class PedidoController {
 	}
 
 	
+	@CacheEvict(value = "pedidosAll", allEntries = true) // LIMPAR TODOS OS REGISTROS E ZERAR O CACHE
 	// @RequestMapping barra alguns media types
-	@CacheEvict(value = "pedidosAll")
 	@PostMapping(value = "/novo")
 	public String novoPedido(@Valid PedidoRequest request, BindingResult result) {
 
