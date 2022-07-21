@@ -51,10 +51,13 @@ public class Pedido {
 	@Enumerated(EnumType.STRING)
 	private StatusPedido status;
 
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	// RESOLVENDO O PROBLEMA org.hibernate.PersistentObjectException: detached entity passed to persist
+	@ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
 	private User user;
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "pedido", fetch = FetchType.LAZY)
+	// RELACIONAMENTOS TERMINADOS EM ONE (ONETOONE E MANYTOONE) POR PADRÃO É EAGER
+	// RELACIONAMENTOS TERMINADOS EM MANY (ONETOMANY E MANYTOMANY) POR PADRÃO É LAZY
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "pedido", fetch = FetchType.EAGER)
 	private List<Oferta> ofertas;
 
 	@Deprecated
@@ -69,6 +72,14 @@ public class Pedido {
 		this.descricao = descricao;
 		this.status = status;
 		this.user = user;
+	}
+
+
+	// CONSTRUTOPR PARA TESTE
+	public Pedido(String nomeProduto, String urlImagem, String urlProduto) {
+		this.nomeProduto = nomeProduto;
+		this.urlImagem = urlImagem;
+		this.urlProduto = urlProduto;
 	}
 
 	public Integer getId() {

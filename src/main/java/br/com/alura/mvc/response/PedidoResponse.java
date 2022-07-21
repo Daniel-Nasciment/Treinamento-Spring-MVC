@@ -3,6 +3,8 @@ package br.com.alura.mvc.response;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+import org.springframework.data.domain.Page;
+
 import br.com.alura.mvc.enuns.StatusPedido;
 import br.com.alura.mvc.model.Pedido;
 
@@ -23,6 +25,19 @@ public class PedidoResponse {
 	private String descricao;
 
 	private StatusPedido status;
+
+	public PedidoResponse(Pedido pedido) {
+
+		this.id = pedido.getId();
+		this.nomeProduto = pedido.getNomeProduto();
+		this.urlImagem = pedido.getUrlImagem();
+		this.urlProduto = pedido.getUrlProduto();
+		this.valorProduto = pedido.getValorProduto();
+		this.dataEntrega = pedido.getDataEntrega();
+		this.descricao = pedido.getDescricao();
+		this.status = pedido.getStatus();
+
+	}
 
 	public Integer getId() {
 		return id;
@@ -88,17 +103,10 @@ public class PedidoResponse {
 		this.status = status;
 	}
 
-	public void toResponse(Pedido p) {
+	public static Page<PedidoResponse> toResponse(Page<Pedido> pedidos) {
 
-		this.id = p.getId();
-		this.nomeProduto = p.getNomeProduto();
-		this.urlImagem = p.getUrlImagem();
-		this.urlProduto = p.getUrlProduto();
-		this.valorProduto = p.getValorProduto();
-		this.dataEntrega = p.getDataEntrega();
-		this.descricao = p.getDescricao();
-		this.status = p.getStatus();
-		
+		// PedidoResponse::new -> CHAMA O PROPRIO CONSTRUTOR QUE RECEBE O PEDIDO COMO PARAMETRO
+		return pedidos.map(PedidoResponse::new);
+
 	}
-
 }
