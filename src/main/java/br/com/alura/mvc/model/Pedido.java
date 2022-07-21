@@ -74,6 +74,14 @@ public class Pedido {
 		this.user = user;
 	}
 
+
+	// CONSTRUTOPR PARA TESTE
+	public Pedido(String nomeProduto, String urlImagem, String urlProduto) {
+		this.nomeProduto = nomeProduto;
+		this.urlImagem = urlImagem;
+		this.urlProduto = urlProduto;
+	}
+
 	public Integer getId() {
 		return id;
 	}

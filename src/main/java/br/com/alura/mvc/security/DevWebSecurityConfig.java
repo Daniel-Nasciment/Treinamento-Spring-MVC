@@ -8,7 +8,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 
 @Configuration
 @EnableWebSecurity
-@Profile("dev")
+@Profile(value = {"dev", "test"})
 public class DevWebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
@@ -17,7 +17,6 @@ public class DevWebSecurityConfig extends WebSecurityConfigurerAdapter {
 		// VM AGUMENTS DE PROFILE QUE O SPRING LE spring.profiles.active
 		http.authorizeRequests()
 		.antMatchers("/**").permitAll()
-		.anyRequest().authenticated()
 		.and().csrf().disable();
 	}
 
