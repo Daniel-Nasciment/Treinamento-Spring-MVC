@@ -3,6 +3,7 @@ package br.com.alura.mvc.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -58,9 +59,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests()
 		// SÓ LEMBRAR DE NUNCA DEIXAR O PERMIT ALL PARA O ACTUATOR EM AMBIENTES PRODUTIVOS
 		.antMatchers("/api/login", "/actuator/**").permitAll()
+		.antMatchers(HttpMethod.GET, "/api/pedidos/aguardando").hasRole("ADMIN")
 		.anyRequest().authenticated()
 		.and().csrf().disable()
 		// AO SE AUTHENTICAR NÃO É PARA CRIAR SESSÃO
+		// SEMPRE LEMBRAR DE QUE NA BASE DEVE ESTAR O PROFIXO "ROLE_NOMEROLE"
 		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 		// POR PADRÃO O SPRING JÁ POSSUI UL FILTER ENTÃO PRECISO USAR O MÉTODO addFilterBefore
 		// ISSO SIGNIFICA QUE NOSSO FILTER VEM ANTES DO UsernamePasswordAuthenticationFilter
