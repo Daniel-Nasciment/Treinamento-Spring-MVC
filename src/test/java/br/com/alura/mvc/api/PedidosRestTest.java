@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
 import org.mockito.BDDMockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -15,7 +14,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -23,7 +21,6 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import br.com.alura.mvc.model.Pedido;
 import br.com.alura.mvc.repository.PedidoRepository;
 
-@RunWith(SpringRunner.class)
 @ActiveProfiles("test")
 @WebMvcTest(controllers = PedidosRest.class)
 public class PedidosRestTest {
